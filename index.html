@@ -94,11 +94,12 @@ home:{crumb:"ART PROCESS",prompt:"Select an art process.",choices:[
 ]},
 
 create:{crumb:"CREATE",prompt:"Create…",choices:[
- C("MY IDEA IS","create","idea"),
+ C("MY IDEA","create","idea"),
  C("FIRST / THEN","first","first"),
  C("I CHOSE","choose","chose"),
  C("I USED","use","used"),
- C("I CHANGED","change","changed")
+ C("I CHANGED","change","changed"),
+ C("I WONDER","see","wonderCreate")
 ]},
 idea:{crumb:"CREATE · IDEA",prompt:"My idea for my artwork is…",choices:[
  F("A PERSON","person","My idea for my artwork is a person."),
@@ -142,7 +143,7 @@ choseWhy:{crumb:"CREATE · WHY",prompt:"because…",choices:[
  F("I LIKE IT","like","because I like it."),
  F("IT SHOWS MY IDEA","show","because it shows my idea."),
  F("IT SHOWS A FEELING","feeling","because it shows a feeling."),
- F("IT MAKES MOVEMENT","movement","because it makes movement."),
+ F("IT ADDS ENERGY","energy","because it adds energy."),
  F("IT MAKES A PATTERN","repeat","because it makes a pattern."),
  F("IT LOOKS DIFFERENT","different","because it looks different.")
 ]},
@@ -192,7 +193,8 @@ present:{crumb:"PRESENT",prompt:"Present…",choices:[
  C("MY ARTWORK IS ABOUT","story","about"),
  C("I WANTED IT TO FEEL","feeling","feel"),
  C("I USED ___ TO SHOW","use","usedShow"),
- C("I WANT YOU TO NOTICE","see","noticePresent")
+ C("I WANT YOU TO NOTICE","see","noticePresent"),
+ C("I WONDER","see","wonderPresent")
 ]},
 shows:{crumb:"PRESENT · SHOW",prompt:"My artwork shows…",choices:[
  C("A FEELING","feeling","showsFeeling"),
@@ -201,7 +203,8 @@ shows:{crumb:"PRESENT · SHOW",prompt:"My artwork shows…",choices:[
  F("BALANCE","balance","My artwork shows balance."),
  F("A PATTERN","pattern","My artwork shows a pattern."),
  F("DETAIL","detail","My artwork shows detail."),
- F("CONTRAST","different","My artwork shows contrast.")
+ F("CONTRAST","different","My artwork shows contrast."),
+ F("SOMETHING PERSONAL TO ME","person","My artwork shows something personal to me.")
 ]},
 showsFeeling:{crumb:"PRESENT · SHOW · FEELING",prompt:"My artwork shows…",choices:[
  F("HAPPINESS","happy","My artwork shows happiness."),
@@ -270,7 +273,8 @@ respond:{crumb:"RESPOND",prompt:"Respond…",choices:[
  C("IT MAKES ME FEEL","feeling","respondFeel"),
  C("I THINK","story","think"),
  C("I LIKE HOW","like","likeHow"),
- C("SAME / DIFFERENT","same","compare")
+ C("SAME / DIFFERENT","same","compare"),
+ C("I WONDER","see","wonderRespond")
 ]},
 respondFeel:{crumb:"RESPOND · FEELING",prompt:"This artwork makes me feel…",choices:[
  F("HAPPY","happy","This artwork makes me feel happy."),
@@ -340,7 +344,8 @@ think:{crumb:"RESPOND · THINK",prompt:"I think the artwork means…",choices:[
  A("PEACE","calm","I think the artwork means peace","thinkWhy"),
  A("ENERGY","energy","I think the artwork means energy","thinkWhy"),
  A("POWER","powerful","I think the artwork means power","thinkWhy"),
- A("A STORY","story","I think the artwork tells a story","thinkWhy")
+ A("A STORY","story","I think the artwork tells a story","thinkWhy"),
+ {label:"SOMETHING ELSE",img:"somethingElse",specialElse:true,final:"I think the artwork means something else."}
 ]},
 thinkWhy:{crumb:"RESPOND · EVIDENCE",prompt:"because…",choices:[
  F("THE COLORS","color","because of the colors."),
@@ -359,7 +364,8 @@ likeHow:{crumb:"RESPOND · FEEDBACK",prompt:"I like how…",choices:[
  F("THE PATTERN LOOKS","pattern","I like how the pattern looks."),
  F("THE TEXTURE LOOKS","texture","I like how the texture looks."),
  F("THE DETAILS SHOW","detail","I like how the details show."),
- F("IT FEELS BALANCED","balance","I like how it feels balanced.")
+ F("IT FEELS BALANCED","balance","I like how it feels balanced."),
+ C("IT MAKES ME FEEL…","feeling","respondFeel")
 ]},
 compare:{crumb:"RESPOND · COMPARE",prompt:"Compare the artworks…",choices:[
  C("SAME","same","same"),C("DIFFERENT","different","diff")
@@ -383,10 +389,41 @@ diff:{crumb:"RESPOND · DIFFERENT",prompt:"The artworks have different…",choic
  F("MOVEMENT","movement","The artworks have different movement.")
 ]},
 
+wonderCreate:{crumb:"CREATE · I WONDER",prompt:"I wonder…",choices:[
+ F("WHAT?",null,"I wonder what would happen if I tried something different."),
+ F("HOW?",null,"I wonder how I could make my idea another way."),
+ F("WHY?",null,"I wonder why I made this choice."),
+ F("SOMETHING ELSE", "somethingElse", "I wonder about something else.")
+]},
+wonderPresent:{crumb:"PRESENT · I WONDER",prompt:"I wonder…",choices:[
+ F("WHAT?",null,"I wonder what you notice in my artwork."),
+ F("HOW?",null,"I wonder how my artwork makes you feel."),
+ F("WHY?",null,"I wonder why you noticed that."),
+ F("SOMETHING ELSE","somethingElse","I wonder about something else.")
+]},
+wonderRespond:{crumb:"RESPOND · I WONDER",prompt:"I wonder…",choices:[
+ F("WHAT?",null,"I wonder what is happening in this artwork."),
+ F("WHO?",null,"I wonder who made this artwork."),
+ F("WHERE?",null,"I wonder where this artwork is from."),
+ F("WHEN?",null,"I wonder when this artwork was made."),
+ F("WHY?",null,"I wonder why the artist made this choice."),
+ F("HOW?",null,"I wonder how the artist made this artwork."),
+ F("SOMETHING ELSE","somethingElse","I wonder about something else.")
+]},
+wonderConnect:{crumb:"CONNECT · I WONDER",prompt:"I wonder…",choices:[
+ F("WHO?",null,"I wonder who made this artwork."),
+ F("WHERE?",null,"I wonder where this artwork comes from."),
+ F("WHEN?",null,"I wonder when this artwork was made."),
+ F("WHY?",null,"I wonder why this artwork is important."),
+ F("HOW?",null,"I wonder how this artwork connects to people or culture."),
+ F("SOMETHING ELSE","somethingElse","I wonder about something else.")
+]},
+
 connect:{crumb:"CONNECT",prompt:"Connect…",choices:[
  C("IT REMINDS ME OF","memory","reminds"),
  C("THIS ART SHOWS","tradition","culture"),
- C("I CONNECT BECAUSE","like","connectWhy")
+ C("I CONNECT BECAUSE","like","connectWhy"),
+ C("I WONDER","see","wonderConnect")
 ]},
 reminds:{crumb:"CONNECT · MEMORY",prompt:"This artwork reminds me of…",choices:[
  F("A PERSON","person","This artwork reminds me of a person."),
@@ -398,7 +435,9 @@ reminds:{crumb:"CONNECT · MEMORY",prompt:"This artwork reminds me of…",choice
  F("HOME","home","This artwork reminds me of home."),
  F("MY FAMILY","family","This artwork reminds me of my family."),
  F("A STORY","story","This artwork reminds me of a story."),
- F("MY COMMUNITY","community","This artwork reminds me of my community.")
+ F("MY COMMUNITY","community","This artwork reminds me of my community."),
+ F("ANOTHER ARTIST","person","This artwork reminds me of another artist."),
+ F("ANOTHER WORK OF ART","show","This artwork reminds me of another work of art.")
 ]},
 culture:{crumb:"CONNECT · CULTURE",prompt:"This art shows…",choices:[
  F("A TRADITION","tradition","This art shows a tradition."),
@@ -432,7 +471,7 @@ try{prefs={...DEFAULTS,...JSON.parse(localStorage.getItem("adaptedArtPrefs")||"{
 const LABEL_ES={
 "SOMETHING ELSE":"OTRA COSA",
 "ART PROCESS":"PROCESO ARTÍSTICO","CREATE":"CREAR","PRESENT":"PRESENTAR","RESPOND":"RESPONDER","CONNECT":"CONECTAR",
-"MY IDEA IS":"MI IDEA ES","FIRST / THEN":"PRIMERO / DESPUÉS","I CHOSE":"ELEGÍ","I USED":"USÉ","I CHANGED":"CAMBIÉ",
+"MY IDEA":"MI IDEA","FIRST / THEN":"PRIMERO / DESPUÉS","I CHOSE":"ELEGÍ","I USED":"USÉ","I CHANGED":"CAMBIÉ",
 "A PERSON":"UNA PERSONA","A PLACE":"UN LUGAR","NATURE":"NATURALEZA","AN ANIMAL":"UN ANIMAL","ANIMALS":"ANIMALES","A FEELING":"UN SENTIMIENTO","A MEMORY":"UN RECUERDO","HOME":"CASA","MY FAMILY":"MI FAMILIA","A STORY":"UNA HISTORIA","MY COMMUNITY":"MI COMUNIDAD",
 "HAPPY":"FELIZ","SAD":"TRISTE","CALM":"TRANQUILO","EXCITED":"EMOCIONADO","MYSTERIOUS":"MISTERIOSO","POWERFUL":"PODEROSO","ENERGY":"ENERGÍA","HAPPINESS":"FELICIDAD","SADNESS":"TRISTEZA","EXCITEMENT":"EMOCIÓN","MYSTERY":"MISTERIO","POWER":"PODER","ENERGETIC":"CON ENERGÍA","EXCITING":"EMOCIONANTE","PEACE":"PAZ",
 "DRAW":"DIBUJAR","PAINT":"PINTAR","CUT":"CORTAR","GLUE":"PEGAR","BUILD":"CONSTRUIR","ADD DETAILS":"AGREGAR DETALLES",
@@ -444,7 +483,7 @@ const LABEL_ES={
 "MY ARTWORK SHOWS":"MI OBRA MUESTRA","MY ARTWORK IS ABOUT":"MI OBRA TRATA DE","I WANTED IT TO FEEL":"QUERÍA QUE SE SINTIERA","I USED ___ TO SHOW":"USÉ ___ PARA MOSTRAR","I WANT YOU TO NOTICE":"QUIERO QUE NOTES",
 "DETAIL":"DETALLE","CONTRAST":"CONTRASTE","A TRADITION":"UNA TRADICIÓN","A CELEBRATION":"UNA CELEBRACIÓN","HISTORY":"HISTORIA",
 "COLOR TO SHOW FEELING":"COLOR PARA MOSTRAR SENTIMIENTO","LINE TO SHOW MOVEMENT":"LÍNEA PARA MOSTRAR MOVIMIENTO","SHAPE TO SHOW BALANCE":"FORMA PARA MOSTRAR EQUILIBRIO","PATTERN TO SHOW RHYTHM":"PATRÓN PARA MOSTRAR RITMO","TEXTURE TO SHOW DETAIL":"TEXTURA PARA MOSTRAR DETALLE","DARK TO SHOW MOOD":"OSCURO PARA MOSTRAR EL ESTADO DE ÁNIMO","BRIGHT TO SHOW ENERGY":"BRILLANTE PARA MOSTRAR ENERGÍA",
-"THE COLOR":"EL COLOR","I NOTICE":"NOTO","IT MAKES ME FEEL":"ME HACE SENTIR","I THINK":"PIENSO","I LIKE HOW":"ME GUSTA CÓMO","SAME / DIFFERENT":"IGUAL / DIFERENTE",
+"THE COLOR":"EL COLOR","I WONDER":"ME PREGUNTO","WHAT?":"¿QUÉ?","WHO?":"¿QUIÉN?","WHERE?":"¿DÓNDE?","WHEN?":"¿CUÁNDO?","WHY?":"¿POR QUÉ?","HOW?":"¿CÓMO?","SOMETHING PERSONAL TO ME":"ALGO PERSONAL PARA MÍ","ANOTHER ARTIST":"OTRO ARTISTA","ANOTHER WORK OF ART":"OTRA OBRA DE ARTE","IT MAKES ME FEEL…":"ME HACE SENTIR…","I NOTICE":"NOTO","IT MAKES ME FEEL":"ME HACE SENTIR","I THINK":"PIENSO","I LIKE HOW":"ME GUSTA CÓMO","SAME / DIFFERENT":"IGUAL / DIFERENTE",
 "COLOR":"COLOR","LINE":"LÍNEA","SHAPE":"FORMA","BRIGHT / DARK":"BRILLANTE / OSCURO","DETAILS":"DETALLES","RED":"ROJO","BLUE":"AZUL","YELLOW":"AMARILLO","GREEN":"VERDE","PURPLE":"MORADO","ORANGE":"NARANJA","A REPEATING PATTERN":"UN PATRÓN REPETIDO","THE SAME PATTERN":"EL MISMO PATRÓN","A DIFFERENT PATTERN":"UN PATRÓN DIFERENTE","ROUGH":"ÁSPERO","SMOOTH":"SUAVE","BUMPY":"CON BULTOS","BRIGHT":"BRILLANTE","DARK":"OSCURO","REPEATED MOVEMENT":"MOVIMIENTO REPETIDO","SAME":"IGUAL","DIFFERENT":"DIFERENTE","WHAT IS HAPPENING":"LO QUE ESTÁ PASANDO",
 "THE COLORS WORK":"LOS COLORES FUNCIONAN JUNTOS","THE LINES MOVE":"LAS LÍNEAS SE MUEVEN","THE SHAPES REPEAT":"LAS FORMAS SE REPITEN","THE PATTERN LOOKS":"CÓMO SE VE EL PATRÓN","THE TEXTURE LOOKS":"CÓMO SE VE LA TEXTURA","THE DETAILS SHOW":"LOS DETALLES QUE MUESTRA","IT FEELS BALANCED":"SE SIENTE EQUILIBRADO","COLORS":"COLORES","SHAPES":"FORMAS","LINES":"LÍNEAS","PATTERNS":"PATRONES","TEXTURES":"TEXTURAS","FEELING":"SENTIMIENTO","FEELINGS":"SENTIMIENTOS",
 "IT REMINDS ME OF":"ME RECUERDA A","THIS ART SHOWS":"ESTE ARTE MUESTRA","I CONNECT BECAUSE":"ME CONECTO PORQUE","A COMMUNITY":"UNA COMUNIDAD","A TIME IN HISTORY":"UN MOMENTO EN LA HISTORIA","PEOPLE":"PERSONAS","IT MAKES ME HAPPY":"ME HACE FELIZ","IT MAKES ME CALM":"ME TRANQUILIZA","IT GIVES ME ENERGY":"ME DA ENERGÍA","I LOVE NATURE":"ME ENCANTA LA NATURALEZA","IT REMINDS ME OF HOME":"ME RECUERDA A CASA","IT REMINDS ME OF FAMILY":"ME RECUERDA A MI FAMILIA","IT REMINDS ME OF A MEMORY":"ME RECUERDA UN RECUERDO","IT CONNECTS TO MY COMMUNITY":"SE CONECTA CON MI COMUNIDAD"
@@ -468,7 +507,7 @@ function labelES(s){
 function esSentence(s){
  if(!s)return s;
  const exact={
- "Select an art process.":"Selecciona un proceso artístico.","Create…":"Crear…","Present…":"Presentar…","Respond…":"Responder…","Connect…":"Conectar…",
+ "Select an art process.":"Selecciona un proceso artístico.","I wonder…":"Me pregunto…","Create…":"Crear…","Present…":"Presentar…","Respond…":"Responder…","Connect…":"Conectar…",
  "My idea for my artwork is…":"Mi idea para mi obra es…","My idea is a feeling…":"Mi idea es un sentimiento…","First I…":"Primero yo…","Then I…":"Después yo…","I chose…":"Elegí…","because…":"porque…","I used…":"Usé…","to…":"para…","I changed…":"Cambié…",
  "My artwork shows…":"Mi obra muestra…","My artwork is about…":"Mi obra trata de…","I wanted my artwork to feel…":"Quería que mi obra se sintiera…","I want you to notice…":"Quiero que notes…",
  "This artwork makes me feel…":"Esta obra me hace sentir…","I notice…":"Noto…","I think the artwork means…":"Pienso que la obra significa…","I like how…":"Me gusta cómo…","Compare the artworks…":"Compara las obras…","Both artworks have the same…":"Ambas obras tienen lo mismo…","The artworks have different…":"Las obras tienen diferentes…",
@@ -515,6 +554,10 @@ function esSentence(s){
  if(t.startsWith("I changed "))return "Cambié "+nounES(t.slice(10).replace(/ …$/,""))+" …";
  if(t.startsWith("I wanted my artwork to feel "))return "Quería que mi obra se sintiera "+feelingES(t.slice(28).replace(/ …$/,""))+" …";
  if(t.startsWith("I think the artwork means "))return "Pienso que la obra significa "+feelingES(t.slice(26).replace(/ …$/,""))+" …";
+ if((m=s.match(/^I wonder (.+)\.$/))){const d={"what would happen if I tried something different":"qué pasaría si intentara algo diferente","how I could make my idea another way":"cómo podría hacer mi idea de otra manera","why I made this choice":"por qué hice esta elección","what you notice in my artwork":"qué notas en mi obra","how my artwork makes you feel":"cómo te hace sentir mi obra","why you noticed that":"por qué notaste eso","what is happening in this artwork":"qué está pasando en esta obra","who made this artwork":"quién hizo esta obra","where this artwork is from":"de dónde viene esta obra","when this artwork was made":"cuándo se hizo esta obra","why the artist made this choice":"por qué el artista hizo esta elección","how the artist made this artwork":"cómo hizo el artista esta obra","where this artwork comes from":"de dónde viene esta obra","why this artwork is important":"por qué esta obra es importante","how this artwork connects to people or culture":"cómo se conecta esta obra con las personas o la cultura","about something else":"sobre otra cosa"};return "Me pregunto "+(d[m[1]]||m[1])+".";}
+ if(s==="My artwork shows something personal to me.")return "Mi obra muestra algo personal para mí.";
+ if(s==="This artwork reminds me of another artist.")return "Esta obra me recuerda a otro artista.";
+ if(s==="This artwork reminds me of another work of art.")return "Esta obra me recuerda a otra obra de arte.";
  return LABEL_ES[s]||s;
 }
 function verbES(s){
@@ -556,7 +599,8 @@ function somethingElseChoice(key){
   diff:"The artworks have something else that is different.",
   reminds:"This artwork reminds me of something else.",
   culture:"This art shows something else.",
-  connectWhy:"I connect to this art because of something else."
+  connectWhy:"I connect to this art because of something else.",
+  wonderCreate:"I wonder about something else.",wonderPresent:"I wonder about something else.",wonderRespond:"I wonder about something else.",wonderConnect:"I wonder about something else.",think:"I think the artwork means something else."
  };
  const fragments={
   then:"Then I do something else.",
@@ -567,7 +611,7 @@ function somethingElseChoice(key){
   thinkWhy:"because of something else."
  };
  const final=full[key]||fragments[key]||"Something else.";
- return {label:"SOMETHING ELSE",img:"somethingElse",final};
+ return {label:"SOMETHING ELSE",img:"somethingElse",final,specialElse:true};
 }
 
 function render(key,push=true){
@@ -586,13 +630,20 @@ function render(key,push=true){
   b.onclick=()=>{b.classList.add("speaking");setTimeout(()=>b.classList.remove("speaking"),420);select(ch)};grid.appendChild(b);
  });
 }
+function standaloneSpeech(label){
+ if(!label)return "";
+ if(label==="PRESENT")return prefs.language==="es"?"Presentar":"Present your artwork";
+ if(prefs.language==="es")return tr(label,"label").toLocaleLowerCase("es");
+ return label.replace(/___/g,"").replace(/\//g," ").toLocaleLowerCase("en-US");
+}
 function select(ch){
- lastChoiceEN=ch.label; speak(tr(ch.label,"label"),false);
+ lastChoiceEN=ch.label; speak(standaloneSpeech(ch.label),false);
  if(ch.action)firstAction=ch.action;
  if(ch.append){parts.push(ch.append);finalChosen=false;setSentence(parts.join(" ")+" …")}
  if(ch.final){
   if(parts.length){if(finalChosen)parts[parts.length-1]=ch.final;else{parts.push(ch.final);finalChosen=true}setSentence(parts.join(" "))}
-  else setSentence(ch.final);
+  else{parts=[ch.final];finalChosen=true;setSentence(ch.final)}
+  setTimeout(()=>speak(tr(currentSentenceEN,"sentence"),true),140);
  }else if(ch.target)render(ch.target,true);
 }
 function setSentence(t){currentSentenceEN=t;renderSentenceText(tr(t,"sentence"))}
@@ -625,7 +676,7 @@ function speak(text,highlight=false){
  u.onend=()=>{fallback.forEach(clearTimeout);setTimeout(clearHighlight,120)};u.onerror=()=>{fallback.forEach(clearTimeout);clearHighlight()};speechSynthesis.speak(u);
 }
 document.getElementById("speak").onclick=()=>speak(tr(currentSentenceEN,"sentence"),true);
-document.getElementById("sentence").onclick=()=>{if(lastChoiceEN)speak(tr(lastChoiceEN,"label"),false)};
+document.getElementById("sentence").onclick=()=>{if(lastChoiceEN)speak(standaloneSpeech(lastChoiceEN),false)};
 
 const modal=document.getElementById("settings");
 function openSettings(){updateSettingsUI();modal.classList.add("open")}
@@ -634,7 +685,7 @@ modal.onclick=e=>{if(e.target===modal)modal.classList.remove("open")};
 function updateSettingsUI(){
  document.querySelectorAll("[data-setting]").forEach(b=>b.classList.toggle("selected",String(prefs[b.dataset.setting])===b.dataset.value));
  const es=prefs.language==="es";document.getElementById("settingsTitle").textContent=es?"Configuración":"Settings";document.getElementById("languageLabel").textContent=es?"Idioma":"Language";document.getElementById("voiceLabel").textContent=es?"Voz":"Voice";document.getElementById("rateLabel").textContent=es?"Velocidad de voz":"Speech rate";document.getElementById("accessLabel").textContent=es?"Tarjetas":"Card display";document.getElementById("displayLabel").textContent=es?"Pantalla":"Display";document.getElementById("lockText").textContent=es?"Ocultar botón de configuración":"Hide settings button";document.getElementById("lockState").textContent=prefs.locked?(es?"Activado":"On"):(es?"Desactivado":"Off");document.getElementById("lockNote").textContent=es?"Cuando esté oculto, mantén presionado el título durante 2 segundos para abrir la configuración.":"When hidden, press and hold the app title for 2 seconds to reopen settings.";document.getElementById("closeSettings").textContent=es?"Cerrar":"Close";
- const txt={"en":"English","es":"Español","girl":es?"👧 Niña":"👧 Girl","boy":es?"👦 Niño":"👦 Boy","slow":es?"Lento":"Slow","standard":es?"Normal":"Standard","both":es?"Palabras + Símbolos":"Words + Symbols","symbols":es?"Solo Símbolos":"Symbols Only","words":es?"Solo Palabras":"Words Only","default":es?"Blanco cálido":"Warm white","dark":es?"Alto contraste":"High contrast","simple":es?"Solo texto":"Text only"};document.querySelectorAll("[data-setting]").forEach(b=>{if(txt[b.dataset.value])b.textContent=txt[b.dataset.value]});
+ const txt={"en":"English","es":"Español","girl":es?"👧 Niña":"👧 Girl","boy":es?"👦 Niño":"👦 Boy","slow":es?"Lento":"Slow","standard":es?"Normal":"Standard","both":es?"Palabras + Símbolos":"Words + Symbols","symbols":es?"Solo Símbolos":"Symbols Only","words":es?"Solo Palabras":"Words Only","default":es?"Blanco cálido":"Warm white","dark":es?"Alto contraste":"High contrast","simple":es?"Solo texto":"Text only","off":es?"Desactivado":"Off","on":es?"Activado":"On"};document.querySelectorAll("[data-setting]").forEach(b=>{if(txt[b.dataset.value])b.textContent=txt[b.dataset.value]});
 }
 document.querySelectorAll("[data-setting]").forEach(b=>b.onclick=()=>{prefs[b.dataset.setting]=b.dataset.value;savePrefs();applyPrefs();render(current,false);setSentence(currentSentenceEN)});
 document.getElementById("lockSettings").onclick=()=>{prefs.locked=!prefs.locked;savePrefs();applyPrefs();toast(prefs.locked?(prefs.language==="es"?"Configuración oculta":"Settings button hidden"):(prefs.language==="es"?"Configuración visible":"Settings button visible"))};
