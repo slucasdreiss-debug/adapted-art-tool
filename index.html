@@ -463,6 +463,8 @@ connectWhy:{crumb:"CONNECT · PERSONAL",prompt:"I connect to this art because…
 let current="home";
 let currentSentenceEN="Select an art process.";
 let lastChoiceEN="";
+let lastActivation={key:"",time:0};
+const TOUCH_LOCK_MS=900;
 let homeArmTimer=null, homeArmed=false;
 const DEFAULTS={language:"en",voice:"girl",rate:"standard",access:"both",display:"default",locked:false};
 let prefs={...DEFAULTS};
@@ -627,7 +629,7 @@ function render(key,push=true){
   if(ch.color){const sw=document.createElement("div");sw.className="colorchip";sw.style.background=ch.color;b.appendChild(sw)}
   else if(ch.img&&IMG[ch.img]){const im=document.createElement("img");im.src=IMG[ch.img];im.alt="";b.appendChild(im)}
   const w=document.createElement("div");w.className="word";w.textContent=tr(ch.label,"label");b.appendChild(w);
-  b.onclick=()=>{b.classList.add("speaking");setTimeout(()=>b.classList.remove("speaking"),420);select(ch)};grid.appendChild(b);
+  b.onclick=()=>{const now=Date.now(),activationKey=key+"|"+ch.label;if(lastActivation.key===activationKey&&now-lastActivation.time<TOUCH_LOCK_MS)return;lastActivation={key:activationKey,time:now};b.classList.add("speaking");setTimeout(()=>b.classList.remove("speaking"),420);select(ch)};grid.appendChild(b);
  });
 }
 function standaloneSpeech(label){
@@ -637,14 +639,18 @@ function standaloneSpeech(label){
  return label.replace(/___/g,"").replace(/\//g," ").toLocaleLowerCase("en-US");
 }
 function select(ch){
- lastChoiceEN=ch.label; speak(standaloneSpeech(ch.label),false);
+ lastChoiceEN=ch.label;
  if(ch.action)firstAction=ch.action;
  if(ch.append){parts.push(ch.append);finalChosen=false;setSentence(parts.join(" ")+" …")}
  if(ch.final){
   if(parts.length){if(finalChosen)parts[parts.length-1]=ch.final;else{parts.push(ch.final);finalChosen=true}setSentence(parts.join(" "))}
   else{parts=[ch.final];finalChosen=true;setSentence(ch.final)}
-  setTimeout(()=>speak(tr(currentSentenceEN,"sentence"),true),140);
- }else if(ch.target)render(ch.target,true);
+  // Let the selected word/phrase finish before modeling the completed sentence.
+  speak(standaloneSpeech(ch.label),false,()=>setTimeout(()=>speak(tr(currentSentenceEN,"sentence"),true),260));
+ }else{
+  speak(standaloneSpeech(ch.label),false);
+  if(ch.target)render(ch.target,true);
+ }
 }
 function setSentence(t){currentSentenceEN=t;renderSentenceText(tr(t,"sentence"))}
 function renderSentenceText(text){
@@ -652,8 +658,17 @@ function renderSentenceText(text){
  const re=/\S+/g;let m,last=0;
  while((m=re.exec(text))){if(m.index>last)el.appendChild(document.createTextNode(text.slice(last,m.index)));const sp=document.createElement("span");sp.className="wordhl";sp.textContent=m[0];sp.dataset.start=m.index;sp.dataset.end=m.index+m[0].length;el.appendChild(sp);last=m.index+m[0].length}if(last<text.length)el.appendChild(document.createTextNode(text.slice(last)));
 }
-function reset(){stack=[];parts=[];finalChosen=false;firstAction="";lastChoiceEN="";render("home",true)}
-document.getElementById("back").onclick=()=>{if(stack.length<=1)return;stack.pop();if(finalChosen){parts.pop();finalChosen=false}else if(parts.length)parts.pop();render(stack[stack.length-1],false)};
+function reset(){stack=[];parts=[];finalChosen=false;firstAction="";lastChoiceEN="";lastActivation={key:"",time:0};render("home",true)}
+document.getElementById("back").onclick=()=>{
+ if(stack.length<=1)return;
+ if("speechSynthesis" in window)speechSynthesis.cancel();clearHighlight();
+ stack.pop();
+ if(finalChosen){parts.pop();finalChosen=false}else if(parts.length)parts.pop();
+ const previous=stack[stack.length-1];render(previous,false);
+ // Roll the language and audio state back together.
+ if(parts.length)setSentence(parts.join(" ")+" …");else setSentence(views[previous].prompt);
+ lastChoiceEN="";
+};
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),1800)}
 document.getElementById("home").onclick=()=>{
  if(stack.length<=1&&parts.length===0){reset();return}
@@ -668,15 +683,23 @@ function pickVoice(lang,gender){
 }
 function clearHighlight(){document.querySelectorAll("#sentence .wordhl.active").forEach(x=>x.classList.remove("active"))}
 function highlightAt(charIndex){const spans=[...document.querySelectorAll("#sentence .wordhl")];let active=spans.find(sp=>charIndex>=+sp.dataset.start&&charIndex<+sp.dataset.end);if(!active)active=spans[spans.length-1];clearHighlight();if(active)active.classList.add("active")}
-function speak(text,highlight=false){
- if(!("speechSynthesis" in window)||!text)return;speechSynthesis.cancel();clearHighlight();
- const u=new SpeechSynthesisUtterance(text);u.lang=prefs.language==="es"?"es-US":"en-US";u.rate=prefs.rate==="slow"?.68:.85;const v=pickVoice(prefs.language,prefs.voice);if(v)u.voice=v;
+function speak(text,highlight=false,onDone=null){
+ if(!("speechSynthesis" in window)||!text){if(onDone)onDone();return}
+ speechSynthesis.cancel();clearHighlight();
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang=prefs.language==="es"?"es-US":"en-US";
+ // Deliberately slower modeling speech for a less rushed, more natural cadence.
+ u.rate=prefs.rate==="slow"?.56:.72;u.pitch=1;
+ const v=pickVoice(prefs.language,prefs.voice);if(v)u.voice=v;
  let gotBoundary=false,fallback=[];
- if(highlight){u.onboundary=e=>{if(typeof e.charIndex==="number"){gotBoundary=true;fallback.forEach(clearTimeout);highlightAt(e.charIndex)}};setTimeout(()=>{if(gotBoundary)return;const spans=[...document.querySelectorAll("#sentence .wordhl")];const step=(prefs.rate==="slow"?520:390);spans.forEach((sp,i)=>fallback.push(setTimeout(()=>{clearHighlight();sp.classList.add("active")},i*step)))},300)}
- u.onend=()=>{fallback.forEach(clearTimeout);setTimeout(clearHighlight,120)};u.onerror=()=>{fallback.forEach(clearTimeout);clearHighlight()};speechSynthesis.speak(u);
+ if(highlight){u.onboundary=e=>{if(typeof e.charIndex==="number"){gotBoundary=true;fallback.forEach(clearTimeout);highlightAt(e.charIndex)}};setTimeout(()=>{if(gotBoundary)return;const spans=[...document.querySelectorAll("#sentence .wordhl")];const step=(prefs.rate==="slow"?650:500);spans.forEach((sp,i)=>fallback.push(setTimeout(()=>{clearHighlight();sp.classList.add("active")},i*step)))},320)}
+ u.onend=()=>{fallback.forEach(clearTimeout);setTimeout(clearHighlight,140);if(onDone)onDone()};
+ u.onerror=()=>{fallback.forEach(clearTimeout);clearHighlight()};
+ speechSynthesis.speak(u);
 }
 document.getElementById("speak").onclick=()=>speak(tr(currentSentenceEN,"sentence"),true);
-document.getElementById("sentence").onclick=()=>{if(lastChoiceEN)speak(standaloneSpeech(lastChoiceEN),false)};
+// The sentence bar always speaks exactly what is currently displayed.
+document.getElementById("sentence").onclick=()=>speak(tr(currentSentenceEN,"sentence"),true);
 
 const modal=document.getElementById("settings");
 function openSettings(){updateSettingsUI();modal.classList.add("open")}
